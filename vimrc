@@ -187,6 +187,30 @@ noremap <Left> <NOP>
 noremap <Right> <NOP>
 
 " airline configuration
-set showcmd "Show what you are tiping in normal mode
+"set showcmd "Show what you are tiping in normal mode
 set laststatus=2 "workaround for showing airline when no split
 set noshowmode "remove the old status bar -- INSERT --
+
+"show branch in status line
+set statusline=%<%f\ %h%m%r%{fugitive#statusline()}%=%-14.(%l,%c%V%)\ %P
+
+map <silent> <C-h> <C-w>< 
+map <silent> <C-j> <C-W>- 
+map <silent> <C-k> <C-W>+ 
+map <silent> <C-l> <C-w>> 
+
+function! <SID>StripTrailingWhitespaces()
+    " Preparation: save last search, and cursor position.
+    let _s=@/
+    let l = line(".")
+    let c = col(".")
+    " Do the business:
+    %s/\s\+$//e
+    " Clean up: restore previous search history, and cursor position
+    let @/=_s
+    call cursor(l, c)
+endfunction
+
+if has("autocmd")
+  autocmd BufWritePre *.py,*.js,*.hpp,*.h,*.c,*.cpp,*.m,*.mm :call <SID>StripTrailingWhitespaces()
+endif
