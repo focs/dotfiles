@@ -178,7 +178,7 @@ inoremap <Down> <C-o>gj
 inoremap <Up> <C-o>gk
 
 "set guifont=DejaVu\ Sans\ Mono\ 10
-set guifont=Monospace\ 12
+set guifont=Monospace\ 8
 
 "braking hte habit of using the arrowkeys
 noremap <Up> <NOP>
