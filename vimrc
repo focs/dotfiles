@@ -26,6 +26,11 @@ Plugin 'honza/vim-snippets'
 Plugin 'wincent/Command-T'
 "let g:CommandTMatchWindowAtTop = 1
 "let g:CommandTMatchWindowReverse = 1
+let g:CommandTMaxFiles=1000000
+"let g:CommandTMaxCachedDirectories=3
+let g:CommandTMaxHeight=30
+let g:CommandTTraverseSCM="dir"
+let g:CommandTFileScanner="find"
 
 Plugin 'Valloric/YouCompleteMe'
 let g:ycm_global_ycm_extra_conf = "/home/fox/.vim/ycm_extra_conf.py"
@@ -64,7 +69,7 @@ Plugin 'ivanov/vim-ipython'
 Plugin 'butane.vim'
 
 "Increment indexes
-Plugin 'increment.vim'
+"Plugin 'increment.vim'
 
 "Search and replace on multiple files
 "Bundle 'EasyGrep'
@@ -79,6 +84,18 @@ Plugin 'Raimondi/delimitMate'
 
 " use git from vim
 Plugin 'tpope/vim-fugitive'
+Plugin 'tpope/vim-unimpaired'
+
+" fugitive extension 
+Plugin 'gregsexton/gitv'
+
+Plugin 'Solarized'
+
+Plugin 'martong/vim-compiledb-path'
+
+" move text around
+"Bundle 'matze/vim-move'
+"let g:move_key_modifier = 'S'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -101,9 +118,16 @@ if $TERM == "xterm-256color"
   set t_Co=256
 endif
 
-colorscheme default
+set hlsearch
+  syntax enable
+  set background=dark
+
 if has("gui_running")
-  colorscheme vividchalk
+  syntax enable
+  set background=dark
+  colorscheme solarized
+
+  "colorscheme vividchalk
   "colorscheme zenburn
   "colorscheme blue
   "set background=dark
@@ -112,8 +136,9 @@ if has("gui_running")
   set guioptions-=r  "remove right-hand scroll bar
   set guioptions-=L  "remove left-hand scroll bar
 else
-  "colorscheme darkblue
-  colorscheme zenburn
+  colorscheme vividchalk
+  hi Search cterm=NONE ctermfg=black ctermbg=LightBlue
+  "colorscheme zenburn
 endif
 
 let g:indent_guides_enable_on_vim_startup = 1
@@ -131,7 +156,7 @@ set nu
 set cursorline
 
 " Show Clumn line
-set colorcolumn=80
+set colorcolumn=81
 
 " Show autocomplete list of commands
 set wildmenu
@@ -139,7 +164,7 @@ set wildmenu
 " Change leader key to ","
 let mapleader = ","
 
-
+set foldmethod=syntax
 nnoremap <leader>gd :YcmCompleter GoToDefinitionElseDeclaration<CR>
 
 "Buffer navigation
@@ -214,3 +239,11 @@ endfunction
 if has("autocmd")
   autocmd BufWritePre *.py,*.js,*.hpp,*.h,*.c,*.cpp,*.m,*.mm :call <SID>StripTrailingWhitespaces()
 endif
+
+" return to normal mode with jk
+imap jk <Esc>
+imap kj <Esc>
+
+:command Q q
+:command WQ wq
+:command Wq wq
