@@ -82,7 +82,7 @@ Plugin 'bling/vim-airline'
 " Add closing brakeds and quotes
 Plugin 'Raimondi/delimitMate'
 
-" use git from vim
+" use git from vimkk
 Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-unimpaired'
 
@@ -90,6 +90,7 @@ Plugin 'tpope/vim-unimpaired'
 Plugin 'gregsexton/gitv'
 
 Plugin 'Solarized'
+Plugin 'vim-kolor'
 
 Plugin 'martong/vim-compiledb-path'
 
@@ -136,8 +137,9 @@ if has("gui_running")
   set guioptions-=r  "remove right-hand scroll bar
   set guioptions-=L  "remove left-hand scroll bar
 else
-  colorscheme vividchalk
-  hi Search cterm=NONE ctermfg=black ctermbg=LightBlue
+  "colorscheme vividchalk
+  colorscheme kolor
+  "hi Search cterm=NONE ctermfg=black ctermbg=LightBlue
   "colorscheme zenburn
 endif
 
