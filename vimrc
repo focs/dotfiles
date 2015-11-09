@@ -24,33 +24,17 @@ Plugin 'honza/vim-snippets'
 
 " Command T plugin
 Plugin 'wincent/Command-T'
-"let g:CommandTMatchWindowAtTop = 1
-"let g:CommandTMatchWindowReverse = 1
 let g:CommandTMaxFiles=1000000
-"let g:CommandTMaxCachedDirectories=3
 let g:CommandTMaxHeight=30
-let g:CommandTTraverseSCM="dir"
-let g:CommandTFileScanner="find"
 
 Plugin 'Valloric/YouCompleteMe'
 let g:ycm_global_ycm_extra_conf = "/home/fox/.vim/ycm_extra_conf.py"
 let g:ycm_confirm_extra_conf = 0
 "let g:ycm_server_log_level = 'debug'
+let g:syntastic_ignore_files = ['\m\c\.\(h\|hh\|hxx\|hpp\|ii\|ixx\|ipp\|inl\|txx\|tpp\|tpl\|cc\|cxx\|cpp\)$']
+"let g:ycm_server_use_vim_stdout = 1
 "let g:ycm_key_list_previous_completion=['<Up>']
 "YcmCompleter GoToDefinitionElseDeclaration<CR>
-
-"Bundle 'scrooloose/Syntastic'
-"Bundle 'clang-complete'
-"Bundle 'highlight_current_line.vim'
-
-"Plugin to visualize tabs
-Plugin 'nathanaelkane/vim-indent-guides'
-"let g:indent_guides_auto_colors = 0
-"hi IndentGuidesOdd  ctermbg=black
-"hi IndentGuidesEven ctermbg=darkgrey
-
-"Plugin to change between .h and .cpp
-"Bundle 'a.vim'
 
 Plugin 'LaTeX-Box-Team/LaTeX-Box'
 let g:LatexBox_latexmk_options = "-xelatex -pdf"
@@ -63,36 +47,33 @@ let g:LatexBox_latexmk_preview_continuously=1
 "Conection with ipython
 Plugin 'ivanov/vim-ipython'
 
-"Bundle 'Conque-Shell'
-
 "Close buffer plugin
 Plugin 'butane.vim'
-
-"Increment indexes
-"Plugin 'increment.vim'
 
 "Search and replace on multiple files
 "Bundle 'EasyGrep'
 Plugin 'dkprice/vim-easygrep'
 
-" Lets see how this works
-" Bundle 'Powerline'
 Plugin 'bling/vim-airline'
 
 " Add closing brakeds and quotes
 Plugin 'Raimondi/delimitMate'
 
-" use git from vimkk
+" use git from vim
 Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-unimpaired'
 
 " fugitive extension 
 Plugin 'gregsexton/gitv'
 
+"Colorschemes
 Plugin 'Solarized'
-Plugin 'vim-kolor'
+Plugin 'zeis/vim-kolor'
 
-Plugin 'martong/vim-compiledb-path'
+Plugin 'scrooloose/nerdtree'
+
+"Eclim config to be used with ycm
+let g:EclimCompletionMethod = 'omnifunc'
 
 " move text around
 "Bundle 'matze/vim-move'
@@ -120,53 +101,28 @@ if $TERM == "xterm-256color"
 endif
 
 set hlsearch
-  syntax enable
-  set background=dark
+syntax enable
+set background=dark
+colorscheme kolor
 
 if has("gui_running")
-  syntax enable
-  set background=dark
-  colorscheme solarized
-
-  "colorscheme vividchalk
-  "colorscheme zenburn
-  "colorscheme blue
-  "set background=dark
   set guioptions-=m  "remove menu bar
   set guioptions-=T  "remove toolbar
   set guioptions-=r  "remove right-hand scroll bar
   set guioptions-=L  "remove left-hand scroll bar
-else
-  "colorscheme vividchalk
-  colorscheme kolor
-  "hi Search cterm=NONE ctermfg=black ctermbg=LightBlue
-  "colorscheme zenburn
 endif
 
-let g:indent_guides_enable_on_vim_startup = 1
-let g:indent_guides_auto_colors = 1
-"hi IndentGuidesOdd  guibg=lightgray   ctermbg=3
-"hi IndentGuidesEven guibg=darkgray ctermbg=4
 
-" To avoid clang message of not compiling small files
-set cmdheight=2
-
-" Show line number
-set nu
-
-" Highlight current line
-set cursorline
-
-" Show Clumn line
-set colorcolumn=81
-
-" Show autocomplete list of commands
-set wildmenu
+set cmdheight=2 "Toavoid clang message of not compiling small files
+set nu "Show line number
+set cursorline "Highlight current line
+set colorcolumn=81 "Show Clumn line
+set wildmenu "Show autocomplete list of commands
+set backspace=2 "make backspace work
 
 " Change leader key to ","
 let mapleader = ","
 
-set foldmethod=syntax
 nnoremap <leader>gd :YcmCompleter GoToDefinitionElseDeclaration<CR>
 
 "Buffer navigation
@@ -204,8 +160,6 @@ vnoremap <Up> gk
 inoremap <Down> <C-o>gj
 inoremap <Up> <C-o>gk
 
-"set guifont=DejaVu\ Sans\ Mono\ 10
-set guifont=Monospace\ 8
 
 "braking hte habit of using the arrowkeys
 noremap <Up> <NOP>
@@ -242,10 +196,12 @@ if has("autocmd")
   autocmd BufWritePre *.py,*.js,*.hpp,*.h,*.c,*.cpp,*.m,*.mm :call <SID>StripTrailingWhitespaces()
 endif
 
-" return to normal mode with jk
-imap jk <Esc>
-imap kj <Esc>
+if has("autocmd")
+  au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$")
+    \| exe "normal! g'\"" | endif
+endif
 
 :command Q q
+:command W w
 :command WQ wq
 :command Wq wq
