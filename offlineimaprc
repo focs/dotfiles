@@ -1,0 +1,87 @@
+
+[general]
+accounts = personal, openmailbox
+ui = ttyui
+pythonfile = ~/.offlineimap_utils.py
+
+[Account personal]
+localrepository = personal-local
+remoterepository = personal-remote
+status_backend = sqlite
+
+[Repository personal-local]
+type = Maildir
+localfolders = ~/.mail/personal
+# Spaces in pathname are bad. Lets use `archive` which is a simple word
+# Besides, we only need `All Mail` folder. 
+# Sup would manage mails on its own.
+# If your GMail language setting is not English, you can execute 
+# `offlineimap --info` to find out the name of folder which is 
+# translated and encoded after your account is configured.
+nametrans = lambda folder: {'archive': '[Gmail]/All Mail',
+                            }.get(folder, folder)
+
+[Repository personal-remote]
+# IMAP with hardcoded GMail config
+type = Gmail
+# The path of ca-certfile might be different on your system.
+#sslcacertfile = /etc/ssl/certs/ca-certificates.crt
+sslcacertfile = ~/ca-bundle.crt
+# Remember that GMail requires full mail address as username
+remoteuser = 
+remotepasseval = get_password('smtp.gmail.com', '')
+nametrans = lambda folder: {'[Gmail]/All Mail': 'archive',
+                            }.get(folder, folder)
+
+#folderfilter = lambda folder: folder == '[Gmail]/All Mail'
+folderfilter = lambda folder: folder not in ['[Gmail]/Trash',
+                                            '[Gmail]/Important',
+                                            '[Gmail]/Spam',
+                                            '[Gmail]/Drafts',
+                                            '[Gmail]/Sent Mail',
+                                            '[Gmail]/Starred',
+                                            ]
+
+# Or, if you have a lot of mail and don't want to wait for a long time before
+# using sup, you can archive all your old mails on Gmail and only sync the
+# inbox with the following line replacing the previous `folderfilter` line:
+# folderfilter = lambda folder: folder == 'INBOX'
+
+
+
+[Account openmailbox]
+localrepository = openmailbox-local
+remoterepository = openmailbox-remote
+status_backend = sqlite
+
+[Repository openmailbox-local]
+type = Maildir
+localfolders = ~/.mail/openmailbox
+# Spaces in pathname are bad. Lets use `archive` which is a simple word
+# Besides, we only need `All Mail` folder. 
+# Sup would manage mails on its own.
+# If your GMail language setting is not English, you can execute 
+# `offlineimap --info` to find out the name of folder which is 
+# translated and encoded after your account is configured.
+nametrans = lambda folder: {'archive': '[Gmail]/All Mail',
+                            }.get(folder, folder)
+
+[Repository openmailbox-remote]
+type = IMAP
+remotehost = imap.openmailbox.org
+ssl = yes
+sslcacertfile = ~/ca-bundle.crt
+# Remember that GMail requires full mail address as username
+remoteuser = @openmailbox.org
+remotepasseval = get_password('smtp.openmailbox.org', '@openmailbox.org')
+#nametrans = lambda folder: {'[Gmail]/All Mail': 'archive',
+#                            }.get(folder, folder)
+
+folderfilter = lambda folder: folder in  ['INBOX', 'Sent', 'Eudyptula', 'Archives/2015', 'Archives']
+#folderfilter = lambda folder: folder not in ['[Gmail]/Trash',
+#                                            '[Gmail]/Important',
+#                                            '[Gmail]/Spam',
+#                                            '[Gmail]/Drafts',
+#                                            '[Gmail]/Sent Mail',
+#                                            '[Gmail]/Starred',
+#                                            ]
