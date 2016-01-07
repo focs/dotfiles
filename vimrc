@@ -28,7 +28,7 @@ let g:CommandTMaxFiles=1000000
 let g:CommandTMaxHeight=30
 
 Plugin 'Valloric/YouCompleteMe'
-let g:ycm_global_ycm_extra_conf = "/home/fox/.vim/ycm_extra_conf.py"
+let g:ycm_global_ycm_extra_conf = "~/.vim/ycm_extra_conf.py"
 let g:ycm_confirm_extra_conf = 0
 "let g:ycm_server_log_level = 'debug'
 let g:syntastic_ignore_files = ['\m\c\.\(h\|hh\|hxx\|hpp\|ii\|ixx\|ipp\|inl\|txx\|tpp\|tpl\|cc\|cxx\|cpp\)$']
@@ -113,7 +113,7 @@ if has("gui_running")
 endif
 
 
-set cmdheight=2 "Toavoid clang message of not compiling small files
+"set cmdheight=2 "Toavoid clang message of not compiling small files
 set nu "Show line number
 set cursorline "Highlight current line
 set colorcolumn=81 "Show Clumn line
