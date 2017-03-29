@@ -1,0 +1,7 @@
+[config]
+server = smtp.openmailbox.org
+email = focs@openmailbox.org
+username = focs@openmailbox.org
+keychain = python
+port = 587
+tls = 1
